@@ -2,6 +2,7 @@ package org.hisrc.dbodtc.service.impl;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -31,13 +32,24 @@ public class TripServiceImpl implements TripService {
 	private DelayService delayService;
 
 	@Override
-	public QueryTripsResult queryTrips(Location from, Location to, Date date)
-			throws IOException {
-		QueryTripsResult firstResult = provider.queryTrips(from, null, to, date,
+	public QueryTripsResult queryTrips(Location from, Location to, Date date,
+			boolean moreTrips) throws IOException {
+		QueryTripsResult result = provider.queryTrips(from, null, to, date,
 				true, Collections.singleton(Product.HIGH_SPEED_TRAIN),
 				WalkSpeed.NORMAL, Accessibility.NEUTRAL, null);
-		
-		QueryTripsResult result = provider.queryMoreTrips(firstResult.context, true);
+
+		result = moreTrips ? provider.queryMoreTrips(result.context, true)
+				: result;
+
+		Collections.sort(result.trips, new Comparator<Trip>() {
+
+			@Override
+			public int compare(Trip o1, Trip o2) {
+				Long t1 = o1.getFirstDepartureTime().getTime();
+				Long t2 = o2.getFirstDepartureTime().getTime();
+				return t1.compareTo(t2);
+			}
+		});
 
 		for (Trip t : result.trips) {
 			processTrip(t);
