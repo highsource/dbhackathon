@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.hisrc.dbodtc.pte.scoring.TripScoring;
 import org.hisrc.dbodtc.service.TripService;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,13 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public QueryTripsResult queryTrips(Location from, Location to)
 			throws IOException {
-		return provider.queryTrips(from, null, to, new Date(), true,
+		QueryTripsResult result = provider.queryTrips(from, null, to, new Date(), true,
 				Collections.singleton(Product.HIGH_SPEED_TRAIN),
 				WalkSpeed.NORMAL, Accessibility.NEUTRAL, null);
+		
+		result = TripScoring.addScores(result);
+		
+		return result;
 	}
 
 }
