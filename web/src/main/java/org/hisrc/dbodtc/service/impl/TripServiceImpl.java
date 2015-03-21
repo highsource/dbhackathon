@@ -33,15 +33,14 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public QueryTripsResult queryTrips(Location from, Location to, Date date)
 			throws IOException {
-		QueryTripsResult firstResult = provider.queryTrips(from, null, to,
-				date, true, Collections.singleton(Product.HIGH_SPEED_TRAIN),
+		QueryTripsResult firstResult = provider.queryTrips(from, null, to, date,
+				true, Collections.singleton(Product.HIGH_SPEED_TRAIN),
 				WalkSpeed.NORMAL, Accessibility.NEUTRAL, null);
+		
+		QueryTripsResult result = provider.queryMoreTrips(firstResult.context, true);
 
-		QueryTripsResult result = provider.queryMoreTrips(firstResult.context,
-				true);
-
-		for (Trip trip : result.trips) {
-			processTrip(trip);
+		for (Trip t : result.trips) {
+			processTrip(t);
 		}
 
 		return result;
