@@ -39,21 +39,38 @@ public class TripServiceImpl implements TripService {
 
 		// result = TripScoring.addScores(result);
 		for (Trip t : result.trips) {
-			for (Leg l : t.legs) {
-				if (l instanceof Public) {
-					Public p = (Public) l;
-					String locationId = p.arrival.id;
-					String stringLineId = p.line.label;
-					stringLineId = stringLineId.replaceAll("[^0-9]", "");
-					Integer lineId = Integer.valueOf(stringLineId);
-					final DelayInfo delayInfo = delayService.getDelay(
-							locationId, lineId);
-					p.delayInfo = delayInfo;
-				}
-			}
+			processTrip(t);
 		}
 
 		return result;
 	}
 
+	private void processTrip(Trip trip) {
+		for (int index = 0; index < trip.legs.size(); index++) {
+			Leg currentLeg = trip.legs.get(index);
+			if (currentLeg instanceof Public) {
+				Public currentPublic = (Public) currentLeg;
+				String locationId = currentPublic.arrival.id;
+				String stringLineId = currentPublic.line.label;
+				stringLineId = stringLineId.replaceAll("[^0-9]", "");
+				Integer lineId = Integer.valueOf(stringLineId);
+
+				int transferTime = 0;
+
+				final Date currentLegArrivalTime = currentLeg.getArrivalTime();
+
+				if ((index + 1) < trip.legs.size()) {
+					final Leg nextLeg = trip.legs.get(index + 1);
+					final Date nextLegDepartureTime = nextLeg
+							.getDepartureTime();
+					transferTime = (int) (nextLegDepartureTime.getTime() - currentLegArrivalTime
+							.getTime()) / (1000 * 60);
+				}
+
+				final DelayInfo delayInfo = delayService.getDelay(locationId,
+						lineId, transferTime);
+				currentPublic.delayInfo = delayInfo;
+			}
+		}
+	}
 }

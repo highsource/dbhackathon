@@ -6,5 +6,5 @@ public interface DelayService {
 
 	public double getAverageDelay(String locationId, String lineId);
 
-	public DelayInfo getDelay(String locationId, int lineId);
+	public DelayInfo getDelay(String locationId, int lineId, int transferTime);
 }

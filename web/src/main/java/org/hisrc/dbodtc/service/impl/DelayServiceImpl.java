@@ -24,7 +24,7 @@ public class DelayServiceImpl implements DelayService {
 	}
 
 	@Override
-	public DelayInfo getDelay(String locationId, int lineId) {
+	public DelayInfo getDelay(String locationId, int lineId, int transferTime) {
 		final List<DelayEntry> delays = this.delayDAO.findDelays(locationId,
 				Integer.valueOf(lineId), new Date(113, 11, 13), new Date(114,
 						11, 12));
@@ -32,18 +32,25 @@ public class DelayServiceImpl implements DelayService {
 		long totalDelay = 0;
 		int count = 0;
 		int maxDelay = 0;
+		int successfulCount = 0;
 		double averageDelay = 0;
+		double successfulTransferRatio = 1;
 		for (DelayEntry delayEntry : delays) {
 			count++;
 			totalDelay += delayEntry.delay;
 			maxDelay = Math.max(delayEntry.delay, maxDelay);
+			if (delayEntry.delay < transferTime) {
+				successfulCount++;
+			}
 		}
 		if (count > 0) {
 			averageDelay = ((double) totalDelay) / count;
+			successfulTransferRatio = ((double) successfulCount) / count;
 		}
 		final DelayInfo delayInfo = new DelayInfo();
 		delayInfo.maxDelay = maxDelay;
 		delayInfo.averageDelay = averageDelay;
+		delayInfo.successfulTransferRatio = successfulTransferRatio;
 		return delayInfo;
 	}
 
