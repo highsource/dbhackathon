@@ -49,6 +49,7 @@ public class TripServiceImpl implements TripService {
 					final double historicDelay = delayDAO.getAverageDelay(
 							locationId, lineId, historyStart, historyEnd);
 					p.historicDelay = historicDelay;
+					
 				}
 			}
 		}
