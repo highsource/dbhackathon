@@ -8,5 +8,5 @@ import de.schildbach.pte.dto.QueryTripsResult;
 
 public interface TripService {
 	
-		public QueryTripsResult queryTrips(Location from, Location to, Date historyStart, Date historyEnd) throws IOException;
+		public QueryTripsResult queryTrips(Location from, Location to, Date date) throws IOException;
 }

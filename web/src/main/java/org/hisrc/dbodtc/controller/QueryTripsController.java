@@ -33,12 +33,8 @@ public class QueryTripsController {
 				fromId, null, null);
 		final Location toLocation = new Location(LocationType.STATION, toId,
 				null, null);
-		final Date historyEnd = timestamp == null ? new Date() : new Date(
-				timestamp);
-		final Date historyStart = new Date(historyEnd.getYear() - 1,
-				historyEnd.getMonth(), historyEnd.getDay());
-		return service.queryTrips(fromLocation, toLocation, historyStart,
-				historyEnd);
+		final Date date = timestamp == null ? new Date() : new Date(timestamp);
+		return service.queryTrips(fromLocation, toLocation, date);
 	}
 
 }

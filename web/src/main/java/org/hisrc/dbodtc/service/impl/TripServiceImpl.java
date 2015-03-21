@@ -31,11 +31,10 @@ public class TripServiceImpl implements TripService {
 	private DelayService delayService;
 
 	@Override
-	public QueryTripsResult queryTrips(Location from, Location to,
-			Date historyStart, Date historyEnd) throws IOException {
-		QueryTripsResult result = provider.queryTrips(from, null, to,
-				new Date(), true,
-				Collections.singleton(Product.HIGH_SPEED_TRAIN),
+	public QueryTripsResult queryTrips(Location from, Location to, Date date)
+			throws IOException {
+		QueryTripsResult result = provider.queryTrips(from, null, to, date,
+				true, Collections.singleton(Product.HIGH_SPEED_TRAIN),
 				WalkSpeed.NORMAL, Accessibility.NEUTRAL, null);
 
 		// result = TripScoring.addScores(result);
