@@ -4,9 +4,9 @@ angular.module('dbhackathon', ['autocomplete', 'ngAnimate', 'ui.bootstrap.dateti
 	console.log('ready');
 	$scope.live = true;
 	
-	$scope.suggestLocations = $scope.live?'http://10.0.0.2:8080/dbodtc-web/suggestLocations?text=':'result.json?';
+	$scope.suggestLocations = $scope.live?'http://localhost:8080/dbodtc-web/suggestLocations?text=':'result.json?';
 	$scope.queryTrips = function(vonId, nachId){
-		return $scope.live?'http://10.0.0.2:8080//dbodtc-web/queryTrips?fromId='+vonId+'&toId='+nachId+'&timestamp='+Math.round(new Date($scope.startTrip).getTime()):'result.json?';
+		return $scope.live?'http://localhost:8080//dbodtc-web/queryTrips?fromId='+vonId+'&toId='+nachId+'&timestamp='+Math.round(new Date($scope.startTrip).getTime()):'result.json?';
 	}
 	$scope.vonList = [];
 	$scope.vonMap = {};
