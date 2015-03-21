@@ -35,6 +35,16 @@ public class HistoricDelayMap {
 		}
 	}
 	
+	public double getAverage() {
+		// TODO
+		return 0;
+	}
+	
+	public double getMax() {
+		// TODO
+		return 0;
+	}
+	
 
 	
 }

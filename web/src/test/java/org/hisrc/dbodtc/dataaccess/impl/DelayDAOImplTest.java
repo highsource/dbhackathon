@@ -36,7 +36,7 @@ public class DelayDAOImplTest {
 
 	@Test
 	public void returnsHistoricDelayList() {
-		delayDAO.getHistoricDelay("8002553", 491, new Date(113,
+		delayDAO.getHistoricDelayMap("8002553", 491, new Date(113,
 				11, 13), new Date(114, 11, 12));
 		//Assert.assertEquals(3.19, averageDelay, .01);
 
