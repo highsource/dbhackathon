@@ -50,6 +50,7 @@ public class DelayServiceImpl implements DelayService {
 		final DelayInfo delayInfo = new DelayInfo();
 		delayInfo.maxDelay = maxDelay;
 		delayInfo.averageDelay = averageDelay;
+		delayInfo.transferTime = transferTime;
 		delayInfo.successfulTransferRatio = successfulTransferRatio;
 		return delayInfo;
 	}
