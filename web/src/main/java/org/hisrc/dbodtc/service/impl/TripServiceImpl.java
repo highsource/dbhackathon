@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.hisrc.dbodtc.pte.scoring.TripScoring;
 import org.hisrc.dbodtc.service.TripService;
 import org.springframework.stereotype.Service;
 

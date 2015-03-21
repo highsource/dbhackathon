@@ -46,8 +46,6 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.7</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>

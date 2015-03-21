@@ -1,4 +1,4 @@
-package org.hisrc.dbodtc.pte.scoring;
+package org.hisrc.dbodtc.service.impl;
 
 import de.schildbach.pte.dto.QueryTripsResult;
 import de.schildbach.pte.dto.Score;
@@ -28,7 +28,7 @@ public class TripScoring {
 			
 			// TODO: delays -> score
 			
-			Trip.score = new Score(65.4321);
+			t.score = new Score(65.4321);
 		}
 		return result;
 	}
