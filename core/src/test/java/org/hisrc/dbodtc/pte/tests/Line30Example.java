@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hisrc.dbodtc.pte.scoring.TripScoring;
+
 import de.schildbach.pte.BahnProvider;
 import de.schildbach.pte.NetworkProvider;
 import de.schildbach.pte.NetworkProvider.Accessibility;
@@ -13,9 +15,6 @@ import de.schildbach.pte.NetworkProvider.WalkSpeed;
 import de.schildbach.pte.dto.Location;
 import de.schildbach.pte.dto.Product;
 import de.schildbach.pte.dto.QueryTripsResult;
-import de.schildbach.pte.dto.Trip;
-import de.schildbach.pte.dto.Trip.Leg;
-import de.schildbach.pte.dto.Trip.Public;
 
 public class Line30Example {
 
@@ -54,35 +53,9 @@ public class Line30Example {
 
 			QueryTripsResult result = provider.queryTrips(from, via, to, date, dep, products, walkSpeed, accessibility, null);
 			
+			result = TripScoring.addScores(result);
 			
-			
-			
-			for (Trip t : result.trips) {
-				System.out.println("---  Trip ---");
-				for (Leg l : t.legs) {
-					Public p = (Public)l;
-					String locationId = p.arrival.id;
-					String lineId = p.line.label;
-
-					// remove all letters and other chars except 0-9 from lineId
-					lineId = lineId.replaceAll("[^0-9]", "");
-					
-					// TODO: call DelayService.getAverageDelay() 
-					double averageDelay = 12.3456;
-					System.out.println("getAverageDelay("+ locationId + "," + lineId +");");
-					// TODO
-					
-					p.averageDelay = averageDelay;
-				}
-				
-				// TODO: delays -> score
-				
-				t.score = 65.4321;
-			}
-			
-		
-
-			
+			System.out.println(result);
 			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
