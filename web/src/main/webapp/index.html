@@ -145,7 +145,7 @@
 											<div class="row" ng-hide="$last" style="text-align:center;">
 												<span>{{parseTransfertime(leg.delayInfo.transferTime)}}</span>
 												<div ng-show="leg.delayInfo.transferTime>0">
-													<span class="ontime" ng-show="leg.delayInfo.successfulTransferRatio>0.9">Die Anschlussfahrt wird in nur {{calcRatio(leg.delayInfo.successfulTransferRatio)}}% aller Fälle erreicht.</span>
+													<span class="ontime" ng-show="leg.delayInfo.successfulTransferRatio>0.9">Die Anschlussfahrt wird in {{calcRatio(leg.delayInfo.successfulTransferRatio)}}% aller Fälle erreicht.</span>
 													<span class="delayed" ng-show="leg.delayInfo.successfulTransferRatio>0.75&&leg.delayInfo.successfulTransferRatio<=0.9">Die Anschlussfahrt wird in nur {{calcRatio(leg.delayInfo.successfulTransferRatio)}}% aller Fälle erreicht.</span>
 													<span class="verydelayed" ng-show="leg.delayInfo.successfulTransferRatio<=0.75">Die Anschlussfahrt wird in nur {{calcRatio(leg.delayInfo.successfulTransferRatio)}}% aller Fälle erreicht.</span>
 												</div>
