@@ -1,6 +1,7 @@
 package org.hisrc.dbodtc.controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -25,13 +26,19 @@ public class QueryTripsController {
 	@ResponseBody
 	public QueryTripsResult queryTrips(
 			@RequestParam(value = "fromId", required = true) final String fromId,
-			@RequestParam(value = "toId", required = true) final String toId)
+			@RequestParam(value = "toId", required = true) final String toId,
+			@RequestParam(value = "timestamp", required = false) final Long timestamp)
 			throws IOException {
 		final Location fromLocation = new Location(LocationType.STATION,
 				fromId, null, null);
 		final Location toLocation = new Location(LocationType.STATION, toId,
 				null, null);
-		return service.queryTrips(fromLocation, toLocation);
+		final Date historyEnd = timestamp == null ? new Date() : new Date(
+				timestamp);
+		final Date historyStart = new Date(historyEnd.getYear() - 1,
+				historyEnd.getMonth(), historyEnd.getDay());
+		return service.queryTrips(fromLocation, toLocation, historyStart,
+				historyEnd);
 	}
 
 }

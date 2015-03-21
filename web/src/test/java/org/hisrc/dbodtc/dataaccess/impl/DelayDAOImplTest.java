@@ -28,7 +28,7 @@ public class DelayDAOImplTest {
 
 	@Test
 	public void returnsAverage() {
-		Double averageDelay = delayDAO.getAverageDelay("AA", 491, new Date(113,
+		Double averageDelay = delayDAO.getAverageDelay("8002553", 491, new Date(113,
 				11, 13), new Date(114, 11, 12));
 		Assert.assertEquals(3.19, averageDelay, .01);
 
