@@ -33,26 +33,13 @@ public class DelayDAOImpl implements DelayDAO {
 		namedParameters.addValue("end", end);
 
 		try {
-			final Double result = this.jdbcTemplate
-					.queryForObject(
-							"select SUM(MAX_VERSPAETUNG)/(?::date - ?::date)::decimal AVERAGE_VERSPAETUNG "
-									+ "FROM ( "
-									+ "select VERSPAETUNGEN.DS100, ZUGNR, BETRIEBSTAG, MAX(VERSPAETUNG) MAX_VERSPAETUNG "
-									+ "FROM VERSPAETUNGEN, CODES "
-									+ "WHERE "
-									+ "CODES.IBNR = ? AND "
-									+ "CODES.DS100 = VERSPAETUNGEN.DS100 AND "
-									+ "ZUGNR = ? AND "
-									+ "VERSPAETUNGEN.BETRIEBSTAG >= ? AND "
-									+ "VERSPAETUNGEN.BETRIEBSTAG < ? "
-									+ "GROUP BY VERSPAETUNGEN.DS100, ZUGNR, BETRIEBSTAG) AS V "
-									+ "GROUP BY DS100, ZUGNR "
-									+ "ORDER BY AVERAGE_VERSPAETUNG DESC",
-							new Object[] { end, start,
-									Integer.valueOf(locationId), lineId, start,
-									end }, new int[] { Types.DATE, Types.DATE,
-									Types.INTEGER, Types.INTEGER, Types.DATE,
-									Types.DATE }, Double.class);
+			final Double result = this.jdbcTemplate.queryForObject("select "
+					+ "MAX(VERSPAETUNG) MAX_VERSPAETUNG "
+					+ "FROM VERSPAETUNGEN, CODES " + "WHERE "
+					+ "CODES.IBNR = ? AND "
+					+ "CODES.DS100 = VERSPAETUNGEN.DS100 AND " + "ZUGNR = ? ",
+					new Object[] { Integer.valueOf(locationId), lineId, },
+					new int[] { Types.INTEGER, Types.INTEGER, }, Double.class);
 			return result == null ? 0 : result.doubleValue();
 		} catch (DataAccessException daex) {
 			return 0;

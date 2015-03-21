@@ -56,7 +56,7 @@ public class Line30Example {
 			QueryTripsResult result = provider.queryTrips(from, via, to, date,
 					dep, products, walkSpeed, accessibility, null);
 
-			result = TripScoring.addScores(result);
+//			result = TripScoring.addScores(result);
 
 			System.out.println(result);
 

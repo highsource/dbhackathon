@@ -37,17 +37,19 @@ public class TripServiceImpl implements TripService {
 				Collections.singleton(Product.HIGH_SPEED_TRAIN),
 				WalkSpeed.NORMAL, Accessibility.NEUTRAL, null);
 
-		result = TripScoring.addScores(result);
+		// result = TripScoring.addScores(result);
 		for (Trip t : result.trips) {
 			for (Leg l : t.legs) {
-				Public p = (Public) l;
-				String locationId = p.arrival.id;
-				String stringLineId = p.line.label;
-				stringLineId = stringLineId.replaceAll("[^0-9]", "");
-				Integer lineId = Integer.valueOf(stringLineId);
-				final double averageDelay = delayDAO.getAverageDelay(
-						locationId, lineId, historyStart, historyEnd);
-				p.averageDelay = averageDelay;
+				if (l instanceof Public) {
+					Public p = (Public) l;
+					String locationId = p.arrival.id;
+					String stringLineId = p.line.label;
+					stringLineId = stringLineId.replaceAll("[^0-9]", "");
+					Integer lineId = Integer.valueOf(stringLineId);
+					final double historicDelay = delayDAO.getAverageDelay(
+							locationId, lineId, historyStart, historyEnd);
+					p.historicDelay = historicDelay;
+				}
 			}
 		}
 
