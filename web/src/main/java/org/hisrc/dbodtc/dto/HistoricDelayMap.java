@@ -1,4 +1,4 @@
-package org.hisrc.dbodts.dto;
+package org.hisrc.dbodtc.dto;
 
 import java.util.Date;
 import java.util.HashMap;

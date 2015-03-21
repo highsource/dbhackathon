@@ -6,13 +6,14 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.hisrc.dbodtc.dataaccess.DelayDAO;
+import org.hisrc.dbodtc.service.DelayService;
 import org.hisrc.dbodtc.service.TripService;
 import org.springframework.stereotype.Service;
 
 import de.schildbach.pte.NetworkProvider;
 import de.schildbach.pte.NetworkProvider.Accessibility;
 import de.schildbach.pte.NetworkProvider.WalkSpeed;
+import de.schildbach.pte.dto.DelayInfo;
 import de.schildbach.pte.dto.Location;
 import de.schildbach.pte.dto.Product;
 import de.schildbach.pte.dto.QueryTripsResult;
@@ -27,7 +28,7 @@ public class TripServiceImpl implements TripService {
 	private NetworkProvider provider;
 
 	@Inject
-	private DelayDAO delayDAO;
+	private DelayService delayService;
 
 	@Override
 	public QueryTripsResult queryTrips(Location from, Location to,
@@ -46,10 +47,9 @@ public class TripServiceImpl implements TripService {
 					String stringLineId = p.line.label;
 					stringLineId = stringLineId.replaceAll("[^0-9]", "");
 					Integer lineId = Integer.valueOf(stringLineId);
-					final double historicDelay = delayDAO.getAverageDelay(
-							locationId, lineId, historyStart, historyEnd);
-					p.historicDelay = historicDelay;
-					
+					final DelayInfo delayInfo = delayService.getDelay(
+							locationId, lineId);
+					p.delayInfo = delayInfo;
 				}
 			}
 		}
